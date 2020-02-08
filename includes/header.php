@@ -13,3 +13,8 @@
 </head>
 
 <body>
+    <?php
+    require_once('./classes/UploadFile.php');
+    require_once('./classes/Continent.php');
+    require_once('./classes/GeoName.php');
+    ?>

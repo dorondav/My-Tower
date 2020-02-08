@@ -8,6 +8,20 @@ body {
     margin: 0;
 }
 
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin: 30px;
+    padding: 10px;
+    text-align: center;
+    ;
+}
+
 #csv_file {
     margin-top: 15px;
 }
@@ -16,11 +30,18 @@ body {
     margin-top: 10px;
 }
 
+.card {
+    margin: 10px;
+}
+
 form div label {
     margin: 20px 0 10px;
 }
 
 #csv_file_data {
     margin-top: 40px;
+}
 
+table {
+    text-align: center;
 }

@@ -1,20 +1,19 @@
 <?php require_once('./includes/header.php'); ?>
 <?php
-
+// spl_autoload_register(function ($class) {
+//     require_once('classes/' . $class . '.php');
+// });
+require_once('./classes/DB.php');
+$db = DB::getInstance();
+$file1 = new GeoName();
+$file1->fetchCountryInfo($db);
 ?>
 <div class="container">
-    <form id="upload_csv" method="post" enctype="multipart/form-data">
-        <div class="col-md-3">
-            <label>Select CSV File</label>
-        </div>
-        <div class="col-md-4">
-            <input type="file" name="csv_file" id="csv_file" accept=".csv" />
-        </div>
-        <div class="col-md-5">
-            <input type="submit" name="upload" id="upload" value="Upload" class="btn btn-primary" />
-        </div>
-    </form>
+    <h1> Call Data Statistical Analysis</h1>
+    <hr>
+    <?php require_once('./includes/csvForm.php'); ?>
+    <hr>
+    <?php require_once('./includes/table.php'); ?>
 
-    <div id="csv_file_data">f</div>
 </div>
 <?php require_once('./includes/footer.php'); ?>

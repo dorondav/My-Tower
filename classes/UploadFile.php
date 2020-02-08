@@ -1,6 +1,7 @@
 <?php
 class UploadFile
 {
+    private $file_data;
     public function uploadCsv()
     {
         if (isset($_POST['upload'])) {
@@ -40,7 +41,7 @@ class UploadFile
                             $i++;
                         }
                         fclose($file);
-                        print_r($importData_arr);
+                        // print_r($importData_arr);
                         // $skip = 0;
                     }
                 }
