@@ -26,10 +26,13 @@ class GeoName
         #---------------------CODE FOR TABLES CREATION AND DATABASE INSERTION----------------------
 
         #Code for truncating the already inserted database the tables
-
-        $query = "TRUNCATE " . 'geo_country';
-        $statement1  = $this->_db->prepare($query);
-        $statement1->execute();
+        try {
+            $query = "TRUNCATE " . 'geo_country';
+            $statement1  = $this->_db->prepare($query);
+            $statement1->execute();
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
 
         #Array of filename and the table name 
         // Add slashes to path
@@ -39,15 +42,18 @@ class GeoName
             $tablename =  array('countryInfo.txt', 'geo_country');
             $query  =   "LOAD DATA LOCAL INFILE '" . $ipsPath . $tablename['0'] . "' IGNORE INTO TABLE `" . $tablename['1'] . "` CHARACTER SET UTF8;";
             $statement  = $this->_db->prepare($query);
-            // echo $query;
             $statement->execute();
         } catch (PDOException $e) {
             die($e->getMessage());
         }
 
         // #Delete empty rows from countryInfo
-        $query = "DELETE FROM geo_country where iso_alpha2 LIKE '#%'; ";
-        $statement  = $this->_db->prepare($query);
-        $statement->execute();
+        try {
+            $query = "DELETE FROM geo_country where iso_alpha2 LIKE '#%'; ";
+            $statement  = $this->_db->prepare($query);
+            $statement->execute();
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
     }
 }

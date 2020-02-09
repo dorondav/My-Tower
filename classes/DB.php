@@ -27,13 +27,24 @@ class DB
             $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->_pdo->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES utf8");
 
-            // Create Database if not exists
+            # Create Database if not exists
             $dbname = "`" . str_replace("`", "``", $dbname) . "`";
             $this->_pdo->query("CREATE DATABASE IF NOT EXISTS $dbname");
             $this->_pdo->query("use $dbname");
+            #---------------------INITIALIZE TABLES ----------------------
+            # Create GeoName Table if not Exists
+            $this->initGeoNamesTable();
+            # Create CSV Table if not Exists
+            $this->initCsvTable();
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
 
-            // Create GeoName Table if not Exists
-
+    private function initGeoNamesTable()
+    {
+        // Create GeoName Table if not Exists
+        try {
             $sql = "CREATE TABLE IF NOT EXISTS `geo_country` (
                 `iso_alpha2` char(2) NOT NULL DEFAULT '',
                 `iso_alpha3` char(3) DEFAULT NULL,
@@ -59,11 +70,29 @@ class DB
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
             $this->_pdo->exec($sql);
             return  $this->_pdo;
-        } catch (PDOException $ex) {
-            die(json_encode(array('outcome' => false, 'message' => 'Database connection failed')));
+        } catch (PDOException $e) {
+            die($e->getMessage());
         }
     }
-
+    private function initCsvTable()
+    {
+        // Create GeoName Table if not Exists
+        try {
+            $sql = "CREATE TABLE IF NOT EXISTS `customers_cells`(
+                `row_id` INT(5) NOT NULL AUTO_INCREMENT,
+                `customer_id` INT(6) NOT NULL ,
+                `date` VARCHAR(11) NOT NULL , 
+                `call_duration` INT(6) NOT NULL ,
+                `dialed_phone_number` VARCHAR(11) NOT NULL ,
+                `customer_ip` VARCHAR(17) NOT NULL ,
+                PRIMARY KEY (`row_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+            $this->_pdo->exec($sql);
+            return  $this->_pdo;
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
     public static function getInstance()
     {
         if (!isset(self::$_instance)) {
