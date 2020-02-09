@@ -6,7 +6,7 @@
 require_once('./classes/DB.php');
 $db = DB::getInstance();
 $file1 = new GeoName();
-$file1->fetchCountryInfo($db);
+$file1->fetchCountryInfo();
 ?>
 <div class="container">
     <h1> Call Data Statistical Analysis</h1>

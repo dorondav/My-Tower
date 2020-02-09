@@ -14,15 +14,16 @@ class DB
         $host   = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "myTowerDoron";
+        $dbname = "mytowerdoron";
 
         // Path to the countryinfo file: /assets/;
-        define('DPATH', '.' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR);
-
+        define('DPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR);
         #*****************************************************************************	
 
         try {
-            $this->_pdo = new PDO("mysql:host=$host", $username, $password);
+            $this->_pdo = new PDO("mysql:host=$host", $username, $password, array(
+                PDO::MYSQL_ATTR_LOCAL_INFILE => true
+            ));
             $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->_pdo->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES utf8");
 
@@ -62,19 +63,13 @@ class DB
             die(json_encode(array('outcome' => false, 'message' => 'Database connection failed')));
         }
     }
-    // public function InsertFromGeoName()
-    // {
-    //     $geo_name = GeoName::fetchCountryInfo();
-    // }
-
-
 
     public static function getInstance()
     {
         if (!isset(self::$_instance)) {
             self::$_instance = new DB();
         }
-        return self::$_instance;
+        return self::$_instance->_pdo;
     }
 
     public function getConnection()
