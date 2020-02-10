@@ -46,10 +46,6 @@ table {
     text-align: center;
 }
 
-.spinner {
-    width: 10%;
-    margin: auto;
-}
 
 .lds-ring {
     display: none;

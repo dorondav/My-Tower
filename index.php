@@ -3,19 +3,24 @@
 
 
 require_once('./classes/DB.php');
+require_once('./classes/Table.php');
+
 $db = DB::getInstance();
 $customersList = new Customers();
+$continent = new Continent();
+print_r($continent->customerLocation());
 $file1 = new GeoName();
 $file1->fetchCountryInfo();
+$table = new Table($continent);
+$customersList->uploadCsv();
 
-print_r($customersList->uploadCsv());
 ?>
 <div class="container">
     <h1> Call Data Statistical Analysis</h1>
     <hr>
 
     <!-- Add Form to upload Customers CSV -->
-    <?php echo $customersList->uploadForm() ?>
+    <?php echo $customersList->setForm() ?>
 
 
     <hr>

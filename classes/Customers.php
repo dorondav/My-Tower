@@ -85,7 +85,7 @@ class Customers
             }
         }
     }
-    public function uploadForm()
+    public function setForm()
     {
 
         $output = '<div class="card">
