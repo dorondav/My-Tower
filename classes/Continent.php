@@ -1,13 +1,14 @@
 <?php
 class Continent
 {
-    public $_db = null,
-        $continent = array();
+    static $_db = null;
+
+    public $continent = array();
     public function __construct()
     {
-        $this->_db = DB::getInstance();
+        self::$_db = DB::getInstance();
     }
-    public function checkIp($ip)
+    private function checkIp($ip)
     {
         // set API access key 
         $access_key = 'd9f000dbc0237078dfb39bf8033d244c';
@@ -27,26 +28,24 @@ class Continent
         return $api_result['continent_code'];
     }
 
-    public function customerLocation()
+    public static function customerLocation()
     {
         // need fo get $id, $ip;
         $continent = array();
         try {
+            // Get IP per Customer;
             $query = ("SELECT customer_id, customer_ip
              FROM 
              customers_cells
              GROUP BY  customer_id");
-            $stmt  = $this->_db->prepare($query);
+            $stmt  = self::$_db->prepare($query);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($result as $row) {
                 if ($row !== '') {
-                    // $continent["id"] = $row["customer_id"];
-                    // $continent["continent"] =  $this->checkIp($row["customer_ip"]);
-
                     $continent[] = [
                         "id" =>  $row["customer_id"],
-                        "continent" => $this->checkIp($row["customer_ip"])
+                        "continent" => self::checkIp($row["customer_ip"])
                     ];
                 }
             }
